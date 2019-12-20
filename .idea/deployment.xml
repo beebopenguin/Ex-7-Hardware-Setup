@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="Wired Raspberry Pi">
+    <serverData>
+      <paths name="Wired Raspberry Pi">
+        <serverdata>
+          <mappings>
+            <mapping local="$USER_HOME$/packages/RaspberryPiCommon" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="pi@widget02-pi.local">
+        <serverdata>
+          <mappings>
+            <mapping local="$USER_HOME$/packages/RaspberryPiCommon" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="pi@widget10-pi.local">
+        <serverdata>
+          <mappings>
+            <mapping local="$USER_HOME$/packages/RaspberryPiCommon" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
