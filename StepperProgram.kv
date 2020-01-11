@@ -1,4 +1,33 @@
-<MainScreen>
+<MainScreen>:
+    startMotorButton: startMotorButton
+    slider: slider
+
+    FloatLayout:
+        size_hint: None, None
 
     Button:
-        text: "HI"
+        id: startMotorButton
+        text: "START"
+        font_size: "100sp"
+        size_hint: 0.2, 0.2
+        pos_hint:{"y":0.2, "x":0.5}
+        on_press: root.startMotor()
+
+    Button:
+        id: directionButton
+        text: "direction"
+        font_size: "100sp"
+        size_hint: 0.2, 0.2
+        pos_hint:{"y":0.5, "x":0.2}
+        on_press: root.changeDirection()
+
+    Slider:
+        id: slider
+        size_hint: 0.5, 0.5
+        cursor_size: 500, 500
+        pos_hint:{"y":0.1, "x":0.65}
+        min: 0
+        max: 1000
+        step: 1
+        orientation: 'vertical'
+        on_touch_move: root.change_speed()

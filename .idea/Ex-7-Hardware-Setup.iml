@@ -2,8 +2,10 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Wired RaspberryPi  (sftp://pi@172.17.21.2:22/usr/bin/python3.5)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Ubuntu WS Local - Python 3.6" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="RaspberryPiCommon" />
+    <orderEntry type="module" module-name="Joystick-Program" />
+    <orderEntry type="module" module-name="Ex-5-Kivy-UI" />
   </component>
 </module>

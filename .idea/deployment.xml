@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Wired Raspberry Pi">
+  <component name="PublishConfigData" autoUpload="Always" serverName="Wired Raspberry Pi" createEmptyFolders="true" autoUploadExternalChanges="true">
     <serverData>
       <paths name="Wired Raspberry Pi">
         <serverdata>
           <mappings>
-            <mapping local="$USER_HOME$/packages/RaspberryPiCommon" web="/" />
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/pi/packages/RaspberryPiCommon" local="$USER_HOME$/packages/RaspberryPiCommon" web="/" />
+            <mapping deploy="/home/pi/Documents/estella" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
@@ -27,5 +27,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

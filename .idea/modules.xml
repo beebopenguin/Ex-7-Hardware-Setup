@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Ex-5-Kivy-UI/.idea/Ex-5-Kivy-UI.iml" filepath="$PROJECT_DIR$/../Ex-5-Kivy-UI/.idea/Ex-5-Kivy-UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Ex-7-Hardware-Setup.iml" filepath="$PROJECT_DIR$/.idea/Ex-7-Hardware-Setup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Joystick-Program/.idea/Joystick-Program.iml" filepath="$PROJECT_DIR$/../Joystick-Program/.idea/Joystick-Program.iml" />
       <module fileurl="file://$USER_HOME$/packages/RaspberryPiCommon/.idea/RaspberryPiCommon.iml" filepath="$USER_HOME$/packages/RaspberryPiCommon/.idea/RaspberryPiCommon.iml" />
     </modules>
   </component>

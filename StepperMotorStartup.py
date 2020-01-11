@@ -108,7 +108,7 @@ s0.goTo(6400)
 # The programmed motion must complete before you can give it another motion command. The real difference is that is you
 # use a non blocking command such as s0.start_go_to_position() you can run other commands like get position while you
 # wait. However - if you use s0.start_go_to_position() you can do other things but you cant give it other movement
-# commands until s0.start_go_to_position() finishes - so you have to monitor if it is finished with s0.is_busy() which
+# commands until s0.start_go_to_position() finishes - so you have to monitor if it is finished with s0.s0() which
 # will return True if the motion command is still going on (if the motor is busy), or False if the motion command is
 # finished (if the motor is NOT busy)
 #
