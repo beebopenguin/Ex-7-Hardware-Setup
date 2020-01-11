@@ -31,6 +31,12 @@ Window.clearcolor = (1, 1, 1, 1)  # White
 
 class MainScreen(Screen):
 
+    def set_direction(self, direction, speed):
+        global d
+        global s
+        self.d = direction
+        self.s = speed
+
     def change_speed(self):
             self.startMotor()
 
@@ -51,6 +57,7 @@ class MainScreen(Screen):
             self.startMotorButton.text = "STOP"
             print("start motor")
 
+
     def startMotor2(self, direction):
         global d
         d = direction
@@ -58,15 +65,19 @@ class MainScreen(Screen):
         s0.run(d, s)
 
     def changeDirection(self):
-        s0.softStop()
 
-        if self.startMotorButton.text == "STOP":
-            print("change direction")
-            if d == 1:
-                self.startMotor2(0)
-            else:
-                self.startMotor2(1)
+        if self.set_direction().d == 1:
+            self.set_direction().d = 0
+        else:
+            self.set_direction().d = 1
 
+  #      if self.startMotorButton.text == "STOP":
+  #          print("change direction")
+  #          s0.softStop()
+  #          if d == 1:
+  #              self.startMotor2(0)
+  #          else:
+  #              self.startMotor2(1)
 
 
 

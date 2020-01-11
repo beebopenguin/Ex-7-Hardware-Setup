@@ -1,6 +1,7 @@
 <MainScreen>:
     startMotorButton: startMotorButton
     slider: slider
+    on_enter: root.setDirection(1, root.slider.value)
 
     FloatLayout:
         size_hint: None, None
