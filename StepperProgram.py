@@ -13,7 +13,7 @@ from Slush.Devices import L6470Registers
 spi = spidev.SpiDev()
 
 s0 = stepper(port=0, micro_steps=32, hold_current=20, run_current=20, accel_current=20, deaccel_current=20,
-             steps_per_unit=200, speed=8)
+             steps_per_unit=200, speed=5)
 
 SCREEN_MANAGER = ScreenManager()
 MAIN_SCREEN_NAME = 'main'
@@ -32,10 +32,9 @@ Window.clearcolor = (1, 1, 1, 1)  # White
 class MainScreen(Screen):
 
     def change_speed(self):
-        self.start_motor()
+        self.start_motor3()
 
     def start_motor(self):
-        print("start motor function initiated")
         global d
         global s
         d = 1
@@ -51,6 +50,16 @@ class MainScreen(Screen):
             self.startMotorButton.text = "STOP"
             print("start motor")
 
+    def start_motor3(self):
+        global d
+        global s
+        s = self.slider.value
+
+        if self.startMotorButton.text == "STOP":
+            s0.run(d, s)
+        else:
+           pass
+
     def startMotor2(self, direction):
 
         global d
@@ -59,11 +68,12 @@ class MainScreen(Screen):
         s0.run(d, s)
 
     def change_direction(self):
-        s0.softStop()
+        global d
 
         if self.startMotorButton.text == "STOP":
             print("change direction")
             s0.softStop()
+            sleep(0.1)
             if d == 1:
                 self.startMotor2(0)
             else:
