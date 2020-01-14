@@ -31,17 +31,11 @@ Window.clearcolor = (1, 1, 1, 1)  # White
 
 class MainScreen(Screen):
 
-    def set_direction(self, direction, speed):
-        global d
-        global s
-        self.d = direction
-        self.s = speed
-
     def change_speed(self):
-            self.startMotor()
+        self.start_motor()
 
-
-    def startMotor(self):
+    def start_motor(self):
+        print("start motor function initiated")
         global d
         global s
         d = 1
@@ -57,28 +51,23 @@ class MainScreen(Screen):
             self.startMotorButton.text = "STOP"
             print("start motor")
 
-
     def startMotor2(self, direction):
+
         global d
         d = direction
 
         s0.run(d, s)
 
-    def changeDirection(self):
+    def change_direction(self):
+        s0.softStop()
 
-        if self.set_direction().d == 1:
-            self.set_direction().d = 0
-        else:
-            self.set_direction().d = 1
-
-  #      if self.startMotorButton.text == "STOP":
-  #          print("change direction")
-  #          s0.softStop()
-  #          if d == 1:
-  #              self.startMotor2(0)
-  #          else:
-  #              self.startMotor2(1)
-
+        if self.startMotorButton.text == "STOP":
+            print("change direction")
+            s0.softStop()
+            if d == 1:
+                self.startMotor2(0)
+            else:
+                self.startMotor2(1)
 
 
 Builder.load_file('StepperProgram.kv')

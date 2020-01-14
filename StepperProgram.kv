@@ -1,7 +1,6 @@
 <MainScreen>:
     startMotorButton: startMotorButton
     slider: slider
-    on_enter: root.setDirection(1, root.slider.value)
 
     FloatLayout:
         size_hint: None, None
@@ -12,7 +11,7 @@
         font_size: "100sp"
         size_hint: 0.2, 0.2
         pos_hint:{"y":0.2, "x":0.5}
-        on_press: root.startMotor()
+        on_press: root.start_motor()
 
     Button:
         id: directionButton
@@ -20,7 +19,7 @@
         font_size: "100sp"
         size_hint: 0.2, 0.2
         pos_hint:{"y":0.5, "x":0.2}
-        on_press: root.changeDirection()
+        on_press: root.change_direction()
 
     Slider:
         id: slider
