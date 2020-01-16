@@ -2,11 +2,13 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, Clock
+
 
 import spidev
 import os
 from time import sleep
+from threading import Timer
 import RPi.GPIO as GPIO
 from pidev.stepper import stepper
 from Slush.Devices import L6470Registers
@@ -78,6 +80,64 @@ class MainScreen(Screen):
                 self.direction_start_motor(0)
             else:
                 self.direction_start_motor(1)
+
+    def change_text(self, dt):
+        self.positionLabel.text = str(s0.get_position_in_units())
+        print("cahnge")
+
+    def move_motor(self, dt):
+        global r
+        global s2
+        print(str(s2))
+        s0.set_speed(s2)
+        s0.relative_move(r)
+        self.positionLabel.text = str(s0.get_position_in_units())
+
+
+    def spin_program(self):
+        global r
+        global s2
+   #     self.positionLabel.text = str(s0.get_position_in_units()) #this doesn't work when sleep function is added in or when s0.start_relative_move is changed to s0.relative_move
+        print("spin 15")
+        s2 = 1
+        r = 5
+        Clock.schedule_once(self.move_motor, 0)
+
+        print("wait 10s, spin 10")
+
+        s2 = 5
+        r = 10
+        Clock.schedule_once(self.move_motor, 10)
+
+
+
+
+
+
+
+
+    def notes(self):
+        # spin program
+
+
+        print("wait 8s, go home, wait 30s")
+        sleep(8)
+        s0.goHome()  #s0.goHome() is a non-blocking command (blocking commands can't do commands like get position or stop while it's running)
+        sleep(30)
+        self.positionLabel.text = str(s0.get_position_in_units())
+
+        print("spin opposite 100")
+        s0.set_speed(8)
+        s0.relative_move(-100)
+        self.positionLabel.text = str(s0.get_position_in_units())
+
+        print("wait 10s, go home")
+        sleep(10)
+        s0.goHome()
+        self.positionLabel.text = str(s0.get_position_in_units())
+
+        s0.free()
+
 
 
 Builder.load_file('StepperProgram.kv')
