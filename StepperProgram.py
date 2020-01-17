@@ -85,29 +85,51 @@ class MainScreen(Screen):
         self.positionLabel.text = str(s0.get_position_in_units())
         print("cahnge")
 
+    def change_variable(self, rotations, speed):
+        global r
+        global s2
+        r = rotations
+        s2 = speed
+        print("change var, r: "+ str(r) + " " + "s2: " + str(s2))
+
     def move_motor(self, dt):
         global r
         global s2
-        print(str(s2))
+        print("move motor" + str(r) + str(s2))
         s0.set_speed(s2)
         s0.relative_move(r)
         self.positionLabel.text = str(s0.get_position_in_units())
 
+    def go_home(self, dt):
+        s0.goHome() #should be 5s
+        Clock.schedule_once(self.get_position, 5.5)
+
+    def go_home2(self, dt):
+        s0.goHome()
+        Clock.schedule_once(self.get_position, 13.5)
+
+    def get_position(self, dt):
+        self.positionLabel.text = str(s0.get_position_in_units())
+
 
     def spin_program(self):
-        global r
-        global s2
-   #     self.positionLabel.text = str(s0.get_position_in_units()) #this doesn't work when sleep function is added in or when s0.start_relative_move is changed to s0.relative_move
-        print("spin 15")
-        s2 = 1
-        r = 5
+        #time: 0s, spin 15s
+        Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
         Clock.schedule_once(self.move_motor, 0)
+        #time 15s, wait 10s, spin 2s
+        Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
+        Clock.schedule_once(self.move_motor, 25)
+        #time 27s, wait 8s, spin 5s
+        Clock.schedule_once(self.go_home, 35)
+        #time 40s, wait 30s, spin 12.5s
+        Clock.schedule_once(lambda dt: self.change_variable(-100, 8), 70)
+        Clock.schedule_once(self.move_motor, 70)
+        #time 82.5, wait 10s
+        Clock.schedule_once(self.go_home2, 92.5)
 
-        print("wait 10s, spin 10")
 
-        s2 = 5
-        r = 10
-        Clock.schedule_once(self.move_motor, 10)
+
+
 
 
 
