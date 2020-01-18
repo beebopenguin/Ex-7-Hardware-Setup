@@ -3,7 +3,8 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, Clock
-
+import threading
+from threading import Thread
 
 import spidev
 import os
@@ -43,13 +44,15 @@ class MainScreen(Screen):
         s = self.slider.value
 
         if self.startMotorButton.text == "STOP":
-            s0.softStop()
+            s0.softFree()
             self.startMotorButton.text = "START"
+            self.startMotorButton.background_color = (1, 2, 0, 1)
             print("stop motor")
 
         else:
             s0.run(d, s)
             self.startMotorButton.text = "STOP"
+            self.startMotorButton.background_color = (1, 0, 0, 1)
             print("start motor")
 
     def slider_start_motor(self):
@@ -81,9 +84,13 @@ class MainScreen(Screen):
             else:
                 self.direction_start_motor(1)
 
-    def change_text(self, dt):
-        self.positionLabel.text = str(s0.get_position_in_units())
-        print("cahnge")
+#//////////////////spin program functions////////////////////////#
+
+    def change_text(self): #function to display start position 0.0 after press & release spin program button
+        if self.startMotorButton.text == "START":
+            s0.set_as_home()
+            self.positionLabel.text = str(s0.get_position_in_units())
+            print("cahnge")
 
     def change_variable(self, rotations, speed):
         global r
@@ -106,60 +113,34 @@ class MainScreen(Screen):
 
     def go_home2(self, dt):
         s0.goHome()
-        Clock.schedule_once(self.get_position, 13.5)
+        Clock.schedule_once(self.get_position, 20)
+        Clock.schedule_once(self.change_color_normal, 20)
 
     def get_position(self, dt):
         self.positionLabel.text = str(s0.get_position_in_units())
 
+    def change_color_normal(self, dt):
+        self.spinButton.background_color = (1, 1, 1, 1)
 
     def spin_program(self):
-        #time: 0s, spin 15s
-        Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
-        Clock.schedule_once(self.move_motor, 0)
-        #time 15s, wait 10s, spin 2s
-        Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
-        Clock.schedule_once(self.move_motor, 25)
-        #time 27s, wait 8s, spin 5s
-        Clock.schedule_once(self.go_home, 35)
-        #time 40s, wait 30s, spin 12.5s
-        Clock.schedule_once(lambda dt: self.change_variable(-100, 8), 70)
-        Clock.schedule_once(self.move_motor, 70)
-        #time 82.5, wait 10s
-        Clock.schedule_once(self.go_home2, 92.5)
+        if self.startMotorButton.text == "START":
+            self.spinButton.background_color = (1, 1, 3, 1)
+            #time: 0s, spin 15s
+            Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
+            Clock.schedule_once(self.move_motor, 0)
+            #time 15s, wait 10s, spin 2s
+            Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
+            Clock.schedule_once(self.move_motor, 25)
+            #time 27s, wait 8s, spin 5s
+            Clock.schedule_once(self.go_home, 35)
+            #time 40s, wait 30s, spin 20s
+            Clock.schedule_once(lambda dt: self.change_variable(-100, 5), 70)
+            Clock.schedule_once(self.move_motor, 70)
+            #time 90s, wait 10s
+            Clock.schedule_once(self.go_home2, 100)
+            #time 2 min.
 
-
-
-
-
-
-
-
-
-
-
-
-    def notes(self):
-        # spin program
-
-
-        print("wait 8s, go home, wait 30s")
-        sleep(8)
-        s0.goHome()  #s0.goHome() is a non-blocking command (blocking commands can't do commands like get position or stop while it's running)
-        sleep(30)
-        self.positionLabel.text = str(s0.get_position_in_units())
-
-        print("spin opposite 100")
-        s0.set_speed(8)
-        s0.relative_move(-100)
-        self.positionLabel.text = str(s0.get_position_in_units())
-
-        print("wait 10s, go home")
-        sleep(10)
-        s0.goHome()
-        self.positionLabel.text = str(s0.get_position_in_units())
-
-        s0.free()
-
+    spin_program_thread = Thread(target = spin_program)
 
 
 Builder.load_file('StepperProgram.kv')

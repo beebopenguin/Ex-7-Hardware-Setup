@@ -2,6 +2,7 @@
     startMotorButton: startMotorButton
     slider: slider
     positionLabel: positionLabel
+    spinButton: spinButton
 
     FloatLayout:
         size_hint: None, None
@@ -25,6 +26,7 @@
         size_hint: 0.2, 0.2
         pos_hint:{"y":0.2, "x":0.5}
         on_press: root.start_motor()
+        background_color: 1, 2, 0, 1
 
     Button:
         id: directionButton
@@ -40,9 +42,8 @@
         font_size: "50sp"
         size_hint: 0.2, 0.2
         pos_hint: {"y": 0.5, "x": 0.5}
-        on_press: root.change_text(0)
+        on_press: root.change_text()
         on_release: root.spin_program()
-
 
     Label:
         id: positionLabel
