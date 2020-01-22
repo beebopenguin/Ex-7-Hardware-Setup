@@ -3,6 +3,7 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, Clock
+from kivy.clock import CyClockBase
 import threading
 from threading import Thread
 
@@ -100,16 +101,13 @@ class MainScreen(Screen):
         global s2
         print("move motor" + str(r) + str(s2))
         s0.set_speed(s2)
-        s0.relative_move(r)
-        self.positionLabel.text = str(s0.get_position_in_units())
+        s0.start_relative_move(r)
 
     def go_home(self, dt):
         s0.goHome() #should be 5s
-        Clock.schedule_once(self.get_position, 5.5)
 
     def go_home2(self, dt):
         s0.goHome()
-        Clock.schedule_once(self.get_position, 20)
         Clock.schedule_once(self.change_color_normal, 20)
 
     def get_position(self, dt):
@@ -121,36 +119,39 @@ class MainScreen(Screen):
         self.directionButton.disabled = False
         self.slider.disabled = False
 
-    def do_nothing(self):
-        pass
-
     def spin_program(self):
 
-        self.startMotorButton.disabled = True
-        self.directionButton.disabled = True
-        self.slider.disabled = True
-        s0.stop()
-        s0.set_as_home()
-        self.positionLabel.text = str(s0.get_position_in_units())
-        #time: 0s, spin 15s
-        Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
-        Clock.schedule_once(self.move_motor, 0)
-        #time 15s, wait 10s, spin 2s
-        Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
-        Clock.schedule_once(self.move_motor, 25)
-        #time 27s, wait 8s, spin 5s
-        Clock.schedule_once(self.go_home, 35)
-        #time 40s, wait 30s, spin 20s
-        Clock.schedule_once(lambda dt: self.change_variable(-100, 5), 70)
-        Clock.schedule_once(self.move_motor, 70)
-        #time 90s, wait 10s
-        Clock.schedule_once(self.go_home2, 100)
-        #time 2 min.
-
-    def exit_program(self):
-        exit(self.spin_program())
-
-    spin_program_thread = Thread(target = spin_program)
+        if self.spinButton.state == "down":
+            self.startMotorButton.disabled = True
+            self.directionButton.disabled = True
+            self.slider.disabled = True
+            s0.stop()
+            s0.set_as_home()
+            self.positionLabel.text = str(s0.get_position_in_units())
+            #time: 0s, spin 15s
+            Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
+            Clock.schedule_once(self.move_motor, 0)
+            Clock.schedule_once(self.get_position, 15)
+            #time 15s, wait 10s, spin 2s
+            Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
+            Clock.schedule_once(self.move_motor, 25)
+            Clock.schedule_once(self.get_position, 27.5)
+            #time 27s, wait 8s, spin 5s
+            Clock.schedule_once(self.go_home, 35)
+            Clock.schedule_once(self.get_position, 40.5)
+            #time 40s, wait 30s, spin 20s
+            Clock.schedule_once(lambda dt: self.change_variable(-100, 5), 70)
+            Clock.schedule_once(self.move_motor, 70)
+            Clock.schedule_once(self.get_position, 90.5)
+            #time 90s, wait 10s, spin 20s
+            Clock.schedule_once(self.go_home2, 100)
+            Clock.schedule_once(self.get_position, 120.5)
+            #time 2 min.
+        else:
+            s0.stop()
+            self.startMotorButton.disabled = False
+            self.directionButton.disabled = False
+            self.slider.disabled = False
 
 
 Builder.load_file('StepperProgram.kv')
