@@ -3,6 +3,7 @@
     slider: slider
     positionLabel: positionLabel
     spinButton: spinButton
+    directionButton: directionButton
 
     FloatLayout:
         size_hint: None, None
@@ -36,14 +37,14 @@
         pos_hint:{"y":0.5, "x":0.2}
         on_press: root.change_direction()
 
-    Button:
+    ToggleButton:
         id: spinButton
         text: "spin program"
         font_size: "50sp"
         size_hint: 0.2, 0.2
         pos_hint: {"y": 0.5, "x": 0.5}
-        on_press: root.change_text()
-        on_release: root.spin_program()
+        on_press: root.spin_program()
+        on_release: root.exit_program()
 
     Label:
         id: positionLabel

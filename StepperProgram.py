@@ -42,18 +42,20 @@ class MainScreen(Screen):
         global s
         d = 1
         s = self.slider.value
+        if self.spinButton.state == "normal":
+            if self.startMotorButton.text == "STOP":
+                s0.softFree()
+                self.startMotorButton.text = "START"
+                self.startMotorButton.background_color = (1, 2, 0, 1)
+                print("stop motor")
 
-        if self.startMotorButton.text == "STOP":
-            s0.softFree()
-            self.startMotorButton.text = "START"
-            self.startMotorButton.background_color = (1, 2, 0, 1)
-            print("stop motor")
-
+            else:
+                s0.run(d, s)
+                self.startMotorButton.text = "STOP"
+                self.startMotorButton.background_color = (1, 0, 0, 1)
+                print("start motor")
         else:
-            s0.run(d, s)
-            self.startMotorButton.text = "STOP"
-            self.startMotorButton.background_color = (1, 0, 0, 1)
-            print("start motor")
+            pass
 
     def slider_start_motor(self):
         global d
@@ -86,12 +88,6 @@ class MainScreen(Screen):
 
 #//////////////////spin program functions////////////////////////#
 
-    def change_text(self): #function to display start position 0.0 after press & release spin program button
-        if self.startMotorButton.text == "START":
-            s0.set_as_home()
-            self.positionLabel.text = str(s0.get_position_in_units())
-            print("cahnge")
-
     def change_variable(self, rotations, speed):
         global r
         global s2
@@ -120,25 +116,39 @@ class MainScreen(Screen):
         self.positionLabel.text = str(s0.get_position_in_units())
 
     def change_color_normal(self, dt):
-        self.spinButton.background_color = (1, 1, 1, 1)
+        self.spinButton.state = "normal"
+        self.startMotorButton.disabled = False
+        self.directionButton.disabled = False
+        self.slider.disabled = False
+
+    def do_nothing(self):
+        pass
 
     def spin_program(self):
-        if self.startMotorButton.text == "START":
-            self.spinButton.background_color = (1, 1, 3, 1)
-            #time: 0s, spin 15s
-            Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
-            Clock.schedule_once(self.move_motor, 0)
-            #time 15s, wait 10s, spin 2s
-            Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
-            Clock.schedule_once(self.move_motor, 25)
-            #time 27s, wait 8s, spin 5s
-            Clock.schedule_once(self.go_home, 35)
-            #time 40s, wait 30s, spin 20s
-            Clock.schedule_once(lambda dt: self.change_variable(-100, 5), 70)
-            Clock.schedule_once(self.move_motor, 70)
-            #time 90s, wait 10s
-            Clock.schedule_once(self.go_home2, 100)
-            #time 2 min.
+
+        self.startMotorButton.disabled = True
+        self.directionButton.disabled = True
+        self.slider.disabled = True
+        s0.stop()
+        s0.set_as_home()
+        self.positionLabel.text = str(s0.get_position_in_units())
+        #time: 0s, spin 15s
+        Clock.schedule_once(lambda dt: self.change_variable(15, 1), 0)
+        Clock.schedule_once(self.move_motor, 0)
+        #time 15s, wait 10s, spin 2s
+        Clock.schedule_once(lambda dt: self.change_variable(10, 5), 25)
+        Clock.schedule_once(self.move_motor, 25)
+        #time 27s, wait 8s, spin 5s
+        Clock.schedule_once(self.go_home, 35)
+        #time 40s, wait 30s, spin 20s
+        Clock.schedule_once(lambda dt: self.change_variable(-100, 5), 70)
+        Clock.schedule_once(self.move_motor, 70)
+        #time 90s, wait 10s
+        Clock.schedule_once(self.go_home2, 100)
+        #time 2 min.
+
+    def exit_program(self):
+        exit(self.spin_program())
 
     spin_program_thread = Thread(target = spin_program)
 
