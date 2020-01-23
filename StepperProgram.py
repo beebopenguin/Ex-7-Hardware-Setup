@@ -149,6 +149,11 @@ class MainScreen(Screen):
             #time 2 min.
         else:
             s0.stop()
+            Clock.unschedule(self.move_motor)
+            Clock.unschedule(self.change_variable)
+            Clock.unschedule(self.get_position)
+            Clock.unschedule(self.go_home)
+            Clock.unschedule(self.go_home2)
             self.startMotorButton.disabled = False
             self.directionButton.disabled = False
             self.slider.disabled = False
