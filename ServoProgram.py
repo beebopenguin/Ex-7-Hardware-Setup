@@ -59,3 +59,22 @@ def step2b():
         else:
             cyprus.set_servo_position(2, 1)
             sleep(0.05)
+
+
+def step3():
+    cyprus.set_pwm_values(2, period_value=100000, compare_value=50000, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+    sleep(5)
+    cyprus.set_pwm_values(2, period_value=100000, compare_value=0, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+    sleep(5)
+    cyprus.set_pwm_values(2, period_value=100000, compare_value=50000, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+    sleep(5)
+    cyprus.set_pwm_values(2, period_value=100000, compare_value=0, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+
+
+def step3a():
+    while 1:
+
+        if (cyprus.read_gpio() & 0b0001):
+            cyprus.set_pwm_values(2, period_value=100000, compare_value=0, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+        else:
+            cyprus.set_pwm_values(2, period_value=100000, compare_value=50000, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
