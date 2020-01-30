@@ -76,5 +76,7 @@ def step3a():
 
         if (cyprus.read_gpio() & 0b0001):
             cyprus.set_pwm_values(2, period_value=100000, compare_value=0, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+            print("HIGH")
         else:
             cyprus.set_pwm_values(2, period_value=100000, compare_value=50000, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+            print("LOW")
